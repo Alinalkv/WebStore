@@ -1,0 +1,37 @@
+﻿@model IEnumerable<WebStore.Models.Employee>
+
+<!DOCTYPE html>     
+
+<html>
+    <head>
+        <title>@ViewBag.Title</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    </head>
+    <body>
+        <h3>Сотрудники</h3>
+        <hr />
+        <table>
+            <tr>
+                <td>id</td>
+                <td>Фамилия</td>
+                <td>Имя</td>
+                <td>Отчетство</td>
+                <td>Возраст</td>
+                <td></td>
+            </tr>
+
+            @foreach (var emploee in Model)
+            {
+        <tr>
+            <td>@emploee.Id</td>
+            <td>@emploee.Surname</td>
+            <td>@emploee.FirstName</td>
+            <td>@emploee.SecondName</td>
+            <td>@emploee.Age</td>
+            <td><a href="/Home/EmployeeDetails/@emploee.Id">Подробная инфа</a></td>
+        </tr>
+                    }
+                
+            </table>
+    </body>
+    </html>
