@@ -17,17 +17,19 @@
                 <td>Имя</td>
                 <td>Отчетство</td>
                 <td>Возраст</td>
+                <td></td>
             </tr>
 
             @foreach (var emploee in Model)
             {
-             <tr>
-                  <td>@emploee.Id</td>
-                  <td>@emploee.Surname</td>
-                  <td>@emploee.FirstName</td>
-                  <td>@emploee.SecondName</td>
-                  <td>@emploee.Age</td>
-            </tr>
+        <tr>
+            <td>@emploee.Id</td>
+            <td>@emploee.Surname</td>
+            <td>@emploee.FirstName</td>
+            <td>@emploee.SecondName</td>
+            <td>@emploee.Age</td>
+            <td><a href="/Home/EmployeeDetails/@emploee.Id">Подробная инфа</a></td>
+        </tr>
                     }
                 
             </table>

@@ -45,6 +45,14 @@ namespace WebStore.Controllers
             return View(_Employees);
         }
 
+        public IActionResult EmployeeDetails (int id)
+        {
+            var employee = _Employees.FirstOrDefault(c => c.Id == id);
+            if (employee is null)
+                return NotFound();
+            return View(employee);
+        }
+
         public IActionResult AnotherAction()
         {
             return Content("First controller second action");
