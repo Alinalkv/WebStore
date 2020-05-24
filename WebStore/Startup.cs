@@ -30,13 +30,11 @@ namespace WebStore
 
             app.UseRouting();
 
-            var greet_string = Configuration["CustomGreetings"];
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapGet("/", async context =>
                 {
-                    await context.Response.WriteAsync(greet_string);
+                    await context.Response.WriteAsync(Configuration["CustomGreetings"]);
                 });
             });
         }
