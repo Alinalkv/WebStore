@@ -12,5 +12,10 @@ namespace WebStore.Controllers
         {
             return Content("First controller");
         }
+
+        public IActionResult AnotherAction()
+        {
+            return Content("First controller second action");
+        }
     }
 }
