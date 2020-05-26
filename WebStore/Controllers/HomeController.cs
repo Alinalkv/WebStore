@@ -39,11 +39,8 @@ namespace WebStore.Controllers
 
 
 
-        public IActionResult Index()
-        {
-            ViewData["Title"] = "Представление Home.Index";
-            return View(_Employees);
-        }
+        public IActionResult Index() => View();
+ 
 
         public IActionResult EmployeeDetails (int id)
         {
