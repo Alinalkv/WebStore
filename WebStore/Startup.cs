@@ -27,6 +27,7 @@ namespace WebStore
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseBrowserLink();
             }
             app.UseStaticFiles();
             app.UseDefaultFiles();
