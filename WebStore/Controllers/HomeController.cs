@@ -9,53 +9,17 @@ namespace WebStore.Controllers
 {
     public class HomeController : Controller
     {
-        private static readonly List<Employee> _Employees = new List<Employee> {
+ 
+        public IActionResult Index() => View();
+        public IActionResult Error404() => View();
+        public IActionResult Blog() => View();
+        public IActionResult BlogSingle() => View();
+        public IActionResult Cart() => View();
+        public IActionResult Checkout() => View();
+        public IActionResult ContactUs() => View();
+        public IActionResult Login() => View();
+        public IActionResult ProductDetails() => View();
+        public IActionResult Shop() => View();
 
-            new Employee
-            {
-                Id = 1,
-                FirstName = "Иван",
-                SecondName = "Иванович",
-                Surname = "Иванов",
-                Age = 28
-            },
-            new Employee
-            {
-                Id = 2,
-                FirstName = "Пётр",
-                SecondName = "Петрович",
-                Surname = "Петров",
-                Age = 29
-            },
-            new Employee
-            {
-                Id = 3,
-                FirstName = "Алесандр",
-                SecondName = "Алесандрович",
-                Surname = "Алесандров",
-                Age = 28
-            },
-            };
-
-
-
-        public IActionResult Index()
-        {
-            ViewData["Title"] = "Представление Home.Index";
-            return View(_Employees);
-        }
-
-        public IActionResult EmployeeDetails (int id)
-        {
-            var employee = _Employees.FirstOrDefault(c => c.Id == id);
-            if (employee is null)
-                return NotFound();
-            return View(employee);
-        }
-
-        public IActionResult AnotherAction()
-        {
-            return Content("First controller second action");
-        }
     }
 }
