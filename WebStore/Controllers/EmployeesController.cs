@@ -3,52 +3,124 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using WebStore.Data;
+using WebStore.Infrustructure.Interfaces;
 using WebStore.Models;
+using WebStore.ViewModels;
 
 namespace WebStore.Controllers
 {
     public class EmployeesController : Controller
     {
 
-        private static readonly List<Employee> _Employees = new List<Employee> {
+        private readonly IEmployeesData _EmployeesData;
 
-            new Employee
-            {
-                Id = 1,
-                FirstName = "Иван",
-                SecondName = "Иванович",
-                Surname = "Иванов",
-                Age = 28
-            },
-            new Employee
-            {
-                Id = 2,
-                FirstName = "Пётр",
-                SecondName = "Петрович",
-                Surname = "Петров",
-                Age = 29
-            },
-            new Employee
-            {
-                Id = 3,
-                FirstName = "Алесандр",
-                SecondName = "Алесандрович",
-                Surname = "Алесандров",
-                Age = 28
-            },
-            };
-        public IActionResult Index()
+        public EmployeesController(IEmployeesData EmployeesData)
         {
-            return View(_Employees);
+            _EmployeesData = EmployeesData;
         }
 
+        public IActionResult Index()
+        {
+            return View(_EmployeesData.Get());
+        }
 
         public IActionResult EmployeeDetails(int id)
         {
-            var employee = _Employees.FirstOrDefault(c => c.Id == id);
+            var employee = _EmployeesData.GetById(id);
             if (employee is null)
                 return NotFound();
             return View(employee);
         }
+
+        #region Редактирование сотрудника
+        //генерит вьюшку с формой для редакирования
+        public IActionResult Edit(int? id)
+        {
+            //если нулевой id, то открываем пустую форму
+            if (id is null)
+                return View(new EmployeeViewModel());
+            //некорректный запос
+            if (id < 0)
+                return BadRequest();
+            var employee = _EmployeesData.GetById((int)id);
+            //не нашли сотрудника по id
+            if (employee is null)
+                return NotFound();
+            //нашли, передаём его данные во ViewModel
+            return View(new EmployeeViewModel
+            {
+                Id = employee.Id,
+                FirstName = employee.FirstName,
+                SecondName = employee.SecondName,
+                Surname = employee.Surname,
+                Age = employee.Age
+            });
+        }
+
+        //после редактирования возвращаемся на Index
+        [HttpPost]
+        public IActionResult Edit(EmployeeViewModel model)
+        {
+            if (model is null)
+                throw new ArgumentNullException(nameof(model));
+
+            var employee = new Employee
+            {
+                Id = model.Id,
+                FirstName = model.FirstName,
+                SecondName = model.SecondName,
+                Surname = model.Surname,
+                Age = model.Age
+            };
+
+            if (model.Id == 0)
+            {
+                //создаём нового сотрудника
+                _EmployeesData.Add(employee);
+            }
+            else
+            {
+                //редакируем сотрудника
+                _EmployeesData.Edit(employee);
+            }
+
+            _EmployeesData.SaveChanges();
+
+            return RedirectToAction("Index");
+        }
+        #endregion
+
+        #region Удаление сотрудника
+        public IActionResult Delete(int id)
+        {
+            if (id <= 0)
+                return BadRequest();
+            var employee = _EmployeesData.GetById(id);
+            if (employee is null)
+                return NotFound();
+
+            return View(new EmployeeViewModel
+            {
+                Id = employee.Id,
+                FirstName = employee.FirstName,
+                SecondName = employee.SecondName,
+                Surname = employee.Surname,
+                Age = employee.Age
+            });
+        }
+
+        [HttpPost]
+        public IActionResult DeleteConfirmed(int id)
+        {
+            _EmployeesData.Delete(id);
+            _EmployeesData.SaveChanges();
+
+            return RedirectToAction("Index");
+        }
+
+        #endregion
+
+
     }
 }
