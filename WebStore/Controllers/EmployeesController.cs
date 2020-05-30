@@ -33,6 +33,7 @@ namespace WebStore.Controllers
             return View(employee);
         }
 
+        #region Редактирование сотрудника
         //генерит вьюшку с формой для редакирования
         public IActionResult Edit(int? id)
         {
@@ -88,5 +89,38 @@ namespace WebStore.Controllers
 
             return RedirectToAction("Index");
         }
+        #endregion
+
+        #region Удаление сотрудника
+        public IActionResult Delete(int id)
+        {
+            if (id <= 0)
+                return BadRequest();
+            var employee = _EmployeesData.GetById(id);
+            if (employee is null)
+                return NotFound();
+
+            return View(new EmployeeViewModel
+            {
+                Id = employee.Id,
+                FirstName = employee.FirstName,
+                SecondName = employee.SecondName,
+                Surname = employee.Surname,
+                Age = employee.Age
+            });
+        }
+
+        [HttpPost]
+        public IActionResult DeleteConfirmed(int id)
+        {
+            _EmployeesData.Delete(id);
+            _EmployeesData.SaveChanges();
+
+            return RedirectToAction("Index");
+        }
+
+        #endregion
+
+
     }
 }
