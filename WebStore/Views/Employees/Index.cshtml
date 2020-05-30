@@ -6,24 +6,42 @@
 }
 
     <div class="container">
+        <a asp-action="Edit" class="btn btn-success">Создать</a>
+        <hr />
         <table class="table">
             <tr>
+                <td></td>
                 <td>Id</td>
                 <td>Фамилия</td>
                 <td>Имя</td>
                 <td>Отчество</td>
                 <td>Возраст</td>
                 <td></td>
+                <td></td>
             </tr>
             @foreach (var empl in Model)
             {
         <tr>
+            <td>
+                <a asp-controller="Employees" asp-action="EmployeeDetails" asp-route-id="@empl.Id">
+                    <i class="fa fa-info-circle"></i>
+                </a>
+            </td>
             <td>@empl.Id</td>
             <td>@empl.Surname</td>
             <td>@empl.FirstName</td>
             <td>@empl.SecondName</td>
             <td>@empl.Age</td>
-            <td><a asp-controller="Employees" asp-action="EmployeeDetails" asp-route-id="@empl.Id">Детальная информация</a></td>
+            <td>
+                <a asp-controller="Employees" asp-action="Edit" asp-route-id="@empl.Id" class="btn btn-success">
+                    <i class="fa fa-edit"></i>
+                </a>
+            </td>
+            <td>
+                <a asp-controller="Employees" asp-action="Delete" asp-route-id="@empl.Id" class="btn btn-danger">
+                    <i class="fa fa-trash-o"></i>
+                </a>
+            </td>
         </tr>
                     }
             </table>

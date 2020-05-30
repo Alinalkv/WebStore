@@ -52,7 +52,6 @@ namespace WebStore.Infrustructure.Services
 
         public void SaveChanges()
         {
-            throw new NotImplementedException();
         }
     }
 }
