@@ -66,6 +66,14 @@ namespace WebStore.Controllers
             if (model is null)
                 throw new ArgumentNullException(nameof(model));
 
+            //ошибка конкретного свойства
+            if (model.Age < 18 || model.Age > 70)
+                ModelState.AddModelError("Age", "Возраст не должен быть менее 18 и более 70 лет");
+
+           //ошибка всей модели
+            if (model.FirstName == model.Surname)
+                ModelState.AddModelError(string.Empty, "Имя и фамилия не должны совпадать");
+            
             //если модель не прошла валидацию
             if (!ModelState.IsValid)
                 return View(model);
