@@ -40,6 +40,7 @@ namespace WebStore.Controllers
             //если нулевой id, то открываем пустую форму
             if (id is null)
                 return View(new EmployeeViewModel());
+            
             //некорректный запос
             if (id < 0)
                 return BadRequest();
@@ -65,7 +66,11 @@ namespace WebStore.Controllers
             if (model is null)
                 throw new ArgumentNullException(nameof(model));
 
-            var employee = new Employee
+            //если модель не прошла валидацию
+            if (!ModelState.IsValid)
+                return View(model);
+
+                var employee = new Employee
             {
                 Id = model.Id,
                 FirstName = model.FirstName,
