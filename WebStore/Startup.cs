@@ -9,6 +9,7 @@ using WebStore.DAL.Context;
 using WebStore.Data;
 using WebStore.Infrustructure.Interfaces;
 using WebStore.Infrustructure.Services;
+using WebStore.Infrustructure.Services.InSQL;
 
 namespace WebStore
 {
@@ -30,7 +31,8 @@ namespace WebStore
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
             //зарегали сервис для работы с сотруниками
             services.AddSingleton<IEmployeesData, InMemoryEmployeesData>();
-            services.AddSingleton<IProductData, InMemoryProductData>();
+           // services.AddSingleton<IProductData, InMemoryProductData>();
+            services.AddScoped<IProductData, SqlProductData>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, WebStoreDBInitialiser db)
