@@ -1,11 +1,15 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using WebStore.DAL.Context;
+using WebStore.Data;
 using WebStore.Infrustructure.Interfaces;
 using WebStore.Infrustructure.Services;
+using WebStore.Infrustructure.Services.InSQL;
 
 namespace WebStore
 {
@@ -21,14 +25,19 @@ namespace WebStore
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<WebStoreDB>(opt => opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddTransient<WebStoreDBInitialiser>();
+            
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
             //зарегали сервис для работы с сотруниками
             services.AddSingleton<IEmployeesData, InMemoryEmployeesData>();
-            services.AddSingleton<IProductData, InMemoryProductData>();
+           // services.AddSingleton<IProductData, InMemoryProductData>();
+            services.AddScoped<IProductData, SqlProductData>();
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, WebStoreDBInitialiser db)
         {
+            db.Initialise();
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
