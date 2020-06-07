@@ -30,8 +30,9 @@ namespace WebStore
             
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
             //зарегали сервис для работы с сотруниками
-            services.AddSingleton<IEmployeesData, InMemoryEmployeesData>();
-           // services.AddSingleton<IProductData, InMemoryProductData>();
+            //services.AddSingleton<IEmployeesData, InMemoryEmployeesData>();
+            services.AddScoped<IEmployeesData, SqlEmployeeData>();
+            // services.AddSingleton<IProductData, InMemoryProductData>();
             services.AddScoped<IProductData, SqlProductData>();
         }
 
