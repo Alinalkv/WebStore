@@ -25,6 +25,14 @@ namespace WebStore.Controllers
         [HttpPost, ValidateAntiForgeryToken]
         public IActionResult Register(RegisterUserViewModel Model)
         {
+            if (!ModelState.IsValid)
+                return View(Model);
+
+            var user = new User
+            {
+                UserName = Model.UserName
+            };
+
             return RedirectToAction("Index", "Home");
         }
         #endregion
