@@ -22,10 +22,8 @@ namespace WebStore.Infrustructure.Services.InSQL
         {
             if (employee is null)
                 throw new ArgumentNullException(nameof(employee));
-            if (_db.Employees.Contains(employee))
-                return employee.Id;
-
-            //employee.Id = _db.Employees.Count() == 0 ? 1 : _db.Employees.Max(c => c.Id) + 1;
+            if (employee.Id != 0)
+                throw new InvalidOperationException("Для добавления сотрудника вручную задан первичный ключ");
             _db.Employees.Add(employee);
             return employee.Id;
         }
@@ -37,20 +35,26 @@ namespace WebStore.Infrustructure.Services.InSQL
                 return false;
             _db.Employees.Remove(db_employee);
             return true;
+
+            //вариант 2
+           //_db.Remove(db_employee);
         }
 
         public void Edit(Employee employee)
         {
+            //вариант 1
             if (employee is null)
                 throw new ArgumentNullException(nameof(employee));
-            //объект уже содержится в списке с изменёнными данными
-            if (_db.Employees.Contains(employee))
-                return;
             var db_employee = GetById(employee.Id);
+            if (db_employee is null) return;
+
             db_employee.FirstName = employee.FirstName;
             db_employee.SecondName = employee.SecondName;
             db_employee.Surname = employee.Surname;
             db_employee.Age = employee.Age;
+
+            //вариант 2
+            //_db.Update(employee);
         }
 
         public IEnumerable<Employee> Get() => _db.Employees;
