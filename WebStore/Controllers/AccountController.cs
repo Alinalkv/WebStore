@@ -52,7 +52,7 @@ namespace WebStore.Controllers
         #endregion
 
         #region Login
-        public IActionResult Login() => View(new LoginViewModel());
+        public IActionResult Login(string returnUrl) => View(new LoginViewModel { ReturnUrl = returnUrl });
 
         [HttpPost, ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginViewModel Model)
