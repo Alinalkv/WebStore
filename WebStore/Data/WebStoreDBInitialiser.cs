@@ -106,7 +106,7 @@ namespace WebStore.Data
                 });
 
             //проверяем, есть ли пользователь с этой ролью. Создаём, если нет
-            if(await _UserManager.FindByNameAsync(Role.Administrator) is null)
+            if(await _UserManager.FindByNameAsync(User.Administrator) is null)
             {
                 var admin = new User {  UserName = User.Administrator};
                 var result = await _UserManager.CreateAsync(admin, User.DefaultAdminPassword);
