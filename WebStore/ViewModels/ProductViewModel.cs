@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WebStore.Domain.Entities;
 using WebStore.Domain.Entities.Base.Interfaces;
 
 namespace WebStore.ViewModels
@@ -13,5 +14,6 @@ namespace WebStore.ViewModels
         public int Order { get; set; }
         public string ImageUrl { get; set; }
         public decimal Price { get; set; }
+        public string Brand { get; set; }
     }
 }

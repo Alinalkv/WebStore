@@ -312,8 +312,8 @@ namespace WebStore.Data
                 new Product
                 {
                     Id = 2,
-                    Name = "Easy Polo Black Edition",
-                    Price = 1025,
+                    Name = "Имя 2",
+                    Price = 1000,
                     ImageUrl = "product2.jpg",
                     Order = 1,
                     SectionId = 2,
@@ -322,8 +322,8 @@ namespace WebStore.Data
                 new Product
                 {
                     Id = 3,
-                    Name = "Easy Polo Black Edition",
-                    Price = 1025,
+                    Name = "Имя 3",
+                    Price = 3333,
                     ImageUrl = "product3.jpg",
                     Order = 2,
                     SectionId = 2,
@@ -332,8 +332,8 @@ namespace WebStore.Data
                 new Product
                 {
                     Id = 4,
-                    Name = "Easy Polo Black Edition",
-                    Price = 1025,
+                    Name = "Имя 4",
+                    Price = 100,
                     ImageUrl = "product4.jpg",
                     Order = 3,
                     SectionId = 2,
@@ -342,7 +342,7 @@ namespace WebStore.Data
                 new Product
                 {
                     Id = 5,
-                    Name = "Easy Polo Black Edition",
+                    Name = "Имя 5",
                     Price = 1025,
                     ImageUrl = "product5.jpg",
                     Order = 4,
@@ -352,8 +352,8 @@ namespace WebStore.Data
                 new Product
                 {
                     Id = 6,
-                    Name = "Easy Polo Black Edition",
-                    Price = 1025,
+                    Name = "Имя 6",
+                    Price = 999,
                     ImageUrl = "product6.jpg",
                     Order = 5,
                     SectionId = 2,
@@ -362,8 +362,8 @@ namespace WebStore.Data
                 new Product
                 {
                     Id = 7,
-                    Name = "Easy Polo Black Edition",
-                    Price = 1025,
+                    Name = "Имя 7",
+                    Price = 888,
                     ImageUrl = "product7.jpg",
                     Order = 6,
                     SectionId = 2,
@@ -372,8 +372,8 @@ namespace WebStore.Data
                 new Product
                 {
                     Id = 8,
-                    Name = "Easy Polo Black Edition",
-                    Price = 1025,
+                    Name = "Имя 8",
+                    Price = 777,
                     ImageUrl = "product8.jpg",
                     Order = 7,
                     SectionId = 25,
@@ -382,8 +382,8 @@ namespace WebStore.Data
                 new Product
                 {
                     Id = 9,
-                    Name = "Easy Polo Black Edition",
-                    Price = 1025,
+                    Name = "Имя 9",
+                    Price = 666,
                     ImageUrl = "product9.jpg",
                     Order = 8,
                     SectionId = 25,
@@ -392,8 +392,8 @@ namespace WebStore.Data
                 new Product
                 {
                     Id = 10,
-                    Name = "Easy Polo Black Edition",
-                    Price = 1025,
+                    Name = "Имя 10",
+                    Price = 555,
                     ImageUrl = "product10.jpg",
                     Order = 9,
                     SectionId = 25,
@@ -402,8 +402,8 @@ namespace WebStore.Data
                 new Product
                 {
                     Id = 11,
-                    Name = "Easy Polo Black Edition",
-                    Price = 1025,
+                    Name = "Имя 11",
+                    Price = 444,
                     ImageUrl = "product11.jpg",
                     Order = 10,
                     SectionId = 25,
@@ -412,8 +412,8 @@ namespace WebStore.Data
                 new Product
                 {
                     Id = 12,
-                    Name = "Easy Polo Black Edition",
-                    Price = 1025,
+                    Name = "Имя 12",
+                    Price = 33,
                     ImageUrl = "product12.jpg",
                     Order = 11,
                     SectionId = 25,

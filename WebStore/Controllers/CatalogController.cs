@@ -34,6 +34,7 @@ namespace WebStore.Controllers
                 BrandId = BrandId,
                 SectionId = SectionId,
                 Products = products.ToView().OrderBy(p => p.Order)
+            //
             }) ;
         }
         
