@@ -1,4 +1,5 @@
-﻿@model IEnumerable<Employee>
+﻿@using WebStore.Domain.Entities.Identity
+@model IEnumerable<Employee>
 
 
 @{
@@ -16,8 +17,12 @@
                 <td>Имя</td>
                 <td>Отчество</td>
                 <td>Возраст</td>
-                <td></td>
-                <td></td>
+                @if (User.IsInRole(Role.Administrator))
+                {
+                    <td></td>
+                    <td></td>
+                }
+
             </tr>
             @foreach (var empl in Model)
             {
@@ -32,16 +37,20 @@
             <td>@empl.FirstName</td>
             <td>@empl.SecondName</td>
             <td>@empl.Age</td>
-            <td>
-                <a asp-controller="Employees" asp-action="Edit" asp-route-id="@empl.Id" class="btn btn-success">
-                    <i class="fa fa-edit"></i>
-                </a>
-            </td>
-            <td>
-                <a asp-controller="Employees" asp-action="Delete" asp-route-id="@empl.Id" class="btn btn-danger">
-                    <i class="fa fa-trash-o"></i>
-                </a>
-            </td>
+            @if (User.IsInRole(Role.Administrator))
+            {
+                <td>
+                    <a asp-controller="Employees" asp-action="Edit" asp-route-id="@empl.Id" class="btn btn-success">
+                        <i class="fa fa-edit"></i>
+                    </a>
+                </td>
+                <td>
+                    <a asp-controller="Employees" asp-action="Delete" asp-route-id="@empl.Id" class="btn btn-danger">
+                        <i class="fa fa-trash-o"></i>
+                    </a>
+                </td>
+            }
+
         </tr>
                     }
             </table>
