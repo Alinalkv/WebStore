@@ -33,7 +33,7 @@ namespace WebStore.Controllers
             {
                 BrandId = BrandId,
                 SectionId = SectionId,
-                Products = products.Select(ProductMapper.ToView).OrderBy(p => p.Order)
+                Products = products.ToView().OrderBy(p => p.Order)
             }) ;
         }
            
