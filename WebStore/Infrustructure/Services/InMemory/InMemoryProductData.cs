@@ -12,6 +12,8 @@ namespace WebStore.Infrustructure.Services
     {
         public IEnumerable<Brand> GetBrands() => TestData.Brands;
 
+        public Product GetProductById(int id) => TestData.Products.FirstOrDefault(p => p.Id == id);
+
         public IEnumerable<Product> GetProducts(ProductFilter filter = null)
         {
             var products = TestData.Products;

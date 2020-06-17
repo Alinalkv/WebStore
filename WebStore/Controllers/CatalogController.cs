@@ -36,6 +36,19 @@ namespace WebStore.Controllers
                 Products = products.ToView().OrderBy(p => p.Order)
             }) ;
         }
-           
+        
+
+        /// <summary>
+        /// Возвращает подробную инфу о товаре
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public IActionResult Details(int id)
+        {
+            var product = _IProductData.GetProductById(id);
+            if (product is null)
+                return NotFound();
+            return View(product.ToView());
+        }
     }
 }
