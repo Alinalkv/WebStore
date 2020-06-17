@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using WebStore.Data;
 using WebStore.Domain.Entities;
 using WebStore.Infrustructure.Interfaces;
+using WebStore.Infrustructure.Mapping;
 using WebStore.ViewModels;
 
 namespace WebStore.Controllers
@@ -49,14 +50,7 @@ namespace WebStore.Controllers
             if (employee is null)
                 return NotFound();
             //нашли, передаём его данные во ViewModel
-            return View(new EmployeeViewModel
-            {
-                Id = employee.Id,
-                FirstName = employee.FirstName,
-                SecondName = employee.SecondName,
-                Surname = employee.Surname,
-                Age = employee.Age
-            });
+            return View(employee.ToView());
         }
 
         //после редактирования возвращаемся на Index
@@ -78,14 +72,7 @@ namespace WebStore.Controllers
             if (!ModelState.IsValid)
                 return View(model);
 
-                var employee = new Employee
-            {
-                Id = model.Id,
-                FirstName = model.FirstName,
-                SecondName = model.SecondName,
-                Surname = model.Surname,
-                Age = model.Age
-            };
+                var employee = model.FromView();
 
             if (model.Id == 0)
             {
@@ -113,14 +100,7 @@ namespace WebStore.Controllers
             if (employee is null)
                 return NotFound();
 
-            return View(new EmployeeViewModel
-            {
-                Id = employee.Id,
-                FirstName = employee.FirstName,
-                SecondName = employee.SecondName,
-                Surname = employee.Surname,
-                Age = employee.Age
-            });
+            return View(employee.ToView());
         }
 
         [HttpPost]
