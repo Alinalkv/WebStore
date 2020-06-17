@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using WebStore.Domain.Entities;
 using WebStore.Infrustructure.Interfaces;
+using WebStore.Infrustructure.Mapping;
 using WebStore.ViewModels;
 
 namespace WebStore.Controllers
@@ -32,17 +33,23 @@ namespace WebStore.Controllers
             {
                 BrandId = BrandId,
                 SectionId = SectionId,
-                Products = products.Select(p => new ProductViewModel
-                {
-                    Id = p.Id,
-                    ImageUrl = p.ImageUrl,
-                    Name = p.Name,
-                    Order = p.Order,
-                    Price = p.Price
-                }
-             ).OrderBy(p => p.Order)
+                Products = products.ToView().OrderBy(p => p.Order)
+            //
             }) ;
         }
-           
+        
+
+        /// <summary>
+        /// Возвращает подробную инфу о товаре
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public IActionResult Details(int id)
+        {
+            var product = _IProductData.GetProductById(id);
+            if (product is null)
+                return NotFound();
+            return View(product.ToView());
+        }
     }
 }

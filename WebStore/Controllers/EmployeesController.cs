@@ -2,14 +2,18 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebStore.Data;
 using WebStore.Domain.Entities;
+using WebStore.Domain.Entities.Identity;
 using WebStore.Infrustructure.Interfaces;
+using WebStore.Infrustructure.Mapping;
 using WebStore.ViewModels;
 
 namespace WebStore.Controllers
 {
+   [Authorize]
     public class EmployeesController : Controller
     {
 
@@ -35,6 +39,7 @@ namespace WebStore.Controllers
 
         #region Редактирование сотрудника
         //генерит вьюшку с формой для редакирования
+        [Authorize(Roles = Role.Administrator)]
         public IActionResult Edit(int? id)
         {
             //если нулевой id, то открываем пустую форму
@@ -49,18 +54,12 @@ namespace WebStore.Controllers
             if (employee is null)
                 return NotFound();
             //нашли, передаём его данные во ViewModel
-            return View(new EmployeeViewModel
-            {
-                Id = employee.Id,
-                FirstName = employee.FirstName,
-                SecondName = employee.SecondName,
-                Surname = employee.Surname,
-                Age = employee.Age
-            });
+            return View(employee.ToView());
         }
 
         //после редактирования возвращаемся на Index
         [HttpPost]
+        [Authorize(Roles = Role.Administrator)]
         public IActionResult Edit(EmployeeViewModel model)
         {
             if (model is null)
@@ -78,14 +77,7 @@ namespace WebStore.Controllers
             if (!ModelState.IsValid)
                 return View(model);
 
-                var employee = new Employee
-            {
-                Id = model.Id,
-                FirstName = model.FirstName,
-                SecondName = model.SecondName,
-                Surname = model.Surname,
-                Age = model.Age
-            };
+                var employee = model.FromView();
 
             if (model.Id == 0)
             {
@@ -105,6 +97,7 @@ namespace WebStore.Controllers
         #endregion
 
         #region Удаление сотрудника
+        [Authorize(Roles = Role.Administrator)]
         public IActionResult Delete(int id)
         {
             if (id <= 0)
@@ -113,17 +106,11 @@ namespace WebStore.Controllers
             if (employee is null)
                 return NotFound();
 
-            return View(new EmployeeViewModel
-            {
-                Id = employee.Id,
-                FirstName = employee.FirstName,
-                SecondName = employee.SecondName,
-                Surname = employee.Surname,
-                Age = employee.Age
-            });
+            return View(employee.ToView());
         }
 
         [HttpPost]
+        [Authorize(Roles = Role.Administrator)]
         public IActionResult DeleteConfirmed(int id)
         {
             _EmployeesData.Delete(id);
