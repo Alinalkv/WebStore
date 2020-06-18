@@ -12,6 +12,7 @@ using WebStore.Data;
 using WebStore.Domain.Entities.Identity;
 using WebStore.Infrustructure.Interfaces;
 using WebStore.Infrustructure.Services;
+using WebStore.Infrustructure.Services.InCookies;
 using WebStore.Infrustructure.Services.InSQL;
 
 namespace WebStore
@@ -73,6 +74,7 @@ namespace WebStore
             services.AddScoped<IEmployeesData, SqlEmployeeData>();
             // services.AddSingleton<IProductData, InMemoryProductData>();
             services.AddScoped<IProductData, SqlProductData>();
+            services.AddScoped<ICartService, CookiesCartService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, WebStoreDBInitialiser db)
