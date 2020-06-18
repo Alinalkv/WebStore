@@ -97,7 +97,7 @@ namespace WebStore.Infrustructure.Services.InCookies
             Cart = cart;
         }
 
-        public void RemoveAll()
+        public void RemoveFromCart(int id)
         {
             var cart = Cart;
             var item = cart.Items.FirstOrDefault(i => i.ProductId == id);
@@ -107,7 +107,7 @@ namespace WebStore.Infrustructure.Services.InCookies
             Cart = cart;
         }
 
-        public void RemoveFromCart(int id)
+        public void RemoveAll()
         {
             var cart = Cart;
             cart.Items.Clear();
@@ -123,7 +123,7 @@ namespace WebStore.Infrustructure.Services.InCookies
             var product_view_models = products.ToView().ToDictionary(p => p.Id);
             return new CartViewModel
             {
-                Items = Cart.Items.Select(item => (product_view_models[item.ProductId], item.ProductId))
+                Items = Cart.Items.Select(item => (product_view_models[item.ProductId], item.Quantity))
             };
         }
     }
