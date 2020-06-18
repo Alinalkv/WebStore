@@ -26,12 +26,17 @@ namespace WebStore.Infrustructure.Services.InSQL
         public IEnumerable<Product> GetProducts(ProductFilter filter = null)
         {
             IEnumerable <Product> query = _db.Products;
-            if (filter?.BrandId != null)
-                query = query.Where(c => c.BrandId == filter.BrandId);
 
-            if (filter?.SectionId != null)
-                query = query.Where(c => c.SectionId == filter.SectionId);
+            if (filter?.Ids?.Length > 0)
+                query = query.Where(c => filter.Ids.Contains(c.Id));
+            else
+            {
+                if (filter?.BrandId != null)
+                    query = query.Where(c => c.BrandId == filter.BrandId);
 
+                if (filter?.SectionId != null)
+                    query = query.Where(c => c.SectionId == filter.SectionId);
+            }
             return query;
         }
 
