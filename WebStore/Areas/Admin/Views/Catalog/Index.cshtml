@@ -1,0 +1,43 @@
+﻿@model IEnumerable<Product>
+
+
+<a asp-area="Admin" asp-controller="Catalog" asp-action="Edit" class="btn btn-success">
+    Добавить новый товар
+</a>
+<table class="table">
+    <thead>
+        <tr>
+            <td></td>
+            <td>@Html.DisplayNameFor(product => product.Name)</td>
+            <td>@Html.DisplayNameFor(product => product.Brand.Name)</td>
+            <td>@Html.DisplayNameFor(product => product.Section.Name)</td>
+            <td>@Html.DisplayNameFor(product => product.ImageUrl)</td>
+            <td>@Html.DisplayNameFor(product => product.Price)</td>
+            <td></td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var product in Model)
+        {
+            <tr>
+                <td>
+                    <a asp-area="Admin" asp-controller="Catalog" asp-action="Edit" asp-route-id="@product.Id" title="Редактировать">
+                        <i class="glyphicon glyphicon-edit"></i>
+                    </a>
+                </td>
+                <td>@Html.DisplayFor(p => product.Name)</td>
+                <td>@Html.DisplayFor(p => product.Brand.Name)</td>
+                <td>@Html.DisplayFor(p => product.Section.Name)</td>
+                <td><img src="~/images/shop/@product.ImageUrl" alt="@product.Name" width="50" /></td>
+                <td>@Html.DisplayFor(p => product.Price)</td>
+                <td>
+                    <a asp-area="Admin" asp-controller="Catalog" asp-action="Delete" asp-route-id="@product.Id" title="Удалить" class="text-danger">
+                        <i class="glyphicon glyphicon-remove"></i>
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+
+</table>
+
