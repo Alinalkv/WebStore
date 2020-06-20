@@ -9,7 +9,7 @@ namespace WebStore.Infrustructure.Interfaces
 {
     public interface IOrderService
     {
-        Task<Order> CreateOrderAsync(string UserName, CartViewModel Cart, OrderViewModel OrderModel);
+        Task<Order> CreateOrder(string UserName, CartViewModel Cart, OrderViewModel OrderModel);
         Task<IEnumerable<Order>> GetUserOrders(string UserName);
         Task<Order> GetOrderById(int id);
     }
