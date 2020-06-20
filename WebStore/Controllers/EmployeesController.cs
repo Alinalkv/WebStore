@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebStore.Data;
@@ -24,11 +25,13 @@ namespace WebStore.Controllers
             _EmployeesData = EmployeesData;
         }
 
-        public IActionResult Index()
-        {
-            return View(_EmployeesData.Get());
-        }
+        public IActionResult Index() => View(_EmployeesData.Get());
 
+        /// <summary>
+        /// Детальная информация о сотруднике
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>   
         public IActionResult EmployeeDetails(int id)
         {
             var employee = _EmployeesData.GetById(id);
@@ -37,10 +40,12 @@ namespace WebStore.Controllers
             return View(employee);
         }
 
+
+
         #region Редактирование сотрудника
         //генерит вьюшку с формой для редакирования
         [Authorize(Roles = Role.Administrator)]
-        public IActionResult Edit(int? id)
+        public IActionResult Edit(int? id, [FromServices] IMapper Mapper)
         {
             //если нулевой id, то открываем пустую форму
             if (id is null)
@@ -54,13 +59,14 @@ namespace WebStore.Controllers
             if (employee is null)
                 return NotFound();
             //нашли, передаём его данные во ViewModel
-            return View(employee.ToView());
+            //return View(employee.ToView()); - без автомэппера
+            return View(Mapper.Map<EmployeeViewModel>(employee));
         }
 
         //после редактирования возвращаемся на Index
         [HttpPost]
         [Authorize(Roles = Role.Administrator)]
-        public IActionResult Edit(EmployeeViewModel model)
+        public IActionResult Edit(EmployeeViewModel model, [FromServices] IMapper Mapper)
         {
             if (model is null)
                 throw new ArgumentNullException(nameof(model));
@@ -77,8 +83,9 @@ namespace WebStore.Controllers
             if (!ModelState.IsValid)
                 return View(model);
 
-                var employee = model.FromView();
-
+            // var employee = model.FromView(); - до автомэппера
+            var employee = Mapper.Map<Employee>(model);
+            
             if (model.Id == 0)
             {
                 //создаём нового сотрудника
@@ -98,7 +105,7 @@ namespace WebStore.Controllers
 
         #region Удаление сотрудника
         [Authorize(Roles = Role.Administrator)]
-        public IActionResult Delete(int id)
+        public IActionResult Delete(int id, [FromServices] IMapper Mapper)
         {
             if (id <= 0)
                 return BadRequest();
@@ -106,7 +113,8 @@ namespace WebStore.Controllers
             if (employee is null)
                 return NotFound();
 
-            return View(employee.ToView());
+            //  return View(employee.ToView());
+            return View(Mapper.Map<EmployeeViewModel>(employee));
         }
 
         [HttpPost]
