@@ -1,9 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using WebStore.Domain.Entities.Base;
 
 namespace WebStore.Domain.Entities.Orders
 {
-    public class OrderItem
+    public class OrderItem : BaseEntity
     {
         [Required]
         public virtual Order Order { get; set; }
