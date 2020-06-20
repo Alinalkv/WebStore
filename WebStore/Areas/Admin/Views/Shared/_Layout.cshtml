@@ -41,8 +41,10 @@
         </div>
         <!-- /. NAV TOP  -->
         <partial name="Partial/_ASiteMenu" />
-       
-        @RenderBody()
+        <div id="page-wrapper">
+            @RenderBody()
+        </div>
+        <!-- /. PAGE WRAPPER  -->
     </div>
     <div class="footer">
 
