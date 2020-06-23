@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 using WebStore.DAL.Context;
 using WebStore.Domain.Entities.Identity;
 using WebStore.Domain.Entities.Orders;
+using WebStore.Domain.ViewModels;
 using WebStore.Infrustructure.Interfaces;
-using WebStore.ViewModels;
 
 namespace WebStore.Infrustructure.Services.InSQL
 {

@@ -5,10 +5,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WebStore.Domain.Entities;
+using WebStore.Domain.Models;
+using WebStore.Domain.ViewModels;
 using WebStore.Infrustructure.Interfaces;
 using WebStore.Infrustructure.Mapping;
-using WebStore.Models;
-using WebStore.ViewModels;
 
 namespace WebStore.Infrustructure.Services.InCookies
 {

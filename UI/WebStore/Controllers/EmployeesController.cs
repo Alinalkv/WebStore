@@ -8,13 +8,13 @@ using Microsoft.AspNetCore.Mvc;
 using WebStore.Data;
 using WebStore.Domain.Entities;
 using WebStore.Domain.Entities.Identity;
+using WebStore.Domain.ViewModels;
 using WebStore.Infrustructure.Interfaces;
 using WebStore.Infrustructure.Mapping;
-using WebStore.ViewModels;
 
 namespace WebStore.Controllers
 {
-   [Authorize]
+    [Authorize]
     public class EmployeesController : Controller
     {
 

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using WebStore.Domain.Entities;
 
-namespace WebStore.ViewModels
+namespace WebStore.Domain.ViewModels
 {
     public class CartViewModel
     {
