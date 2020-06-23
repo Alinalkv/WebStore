@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using WebStore.DAL.Context;
 using WebStore.Domain.Entities.Identity;
 
-namespace WebStore.Data
+namespace WebStore.Services.Data
 {
     public class WebStoreDBInitialiser
     {
@@ -44,34 +44,34 @@ namespace WebStore.Data
             if (_db.Products.Any())
                 return;
 
-                //добавляем бд транзакциями: если будет ошибка, всё откатится назад
-                using (db.BeginTransaction())
-                {
-                    _db.AddRange(TestData.Sections);
-                    db.ExecuteSqlRaw("SET IDENTITY_INSERT [dbo].[ProductSection] ON");
-                    _db.SaveChanges();
-                    db.ExecuteSqlRaw("SET IDENTITY_INSERT  [dbo].[ProductSection] OFF");
+            //добавляем бд транзакциями: если будет ошибка, всё откатится назад
+            using (db.BeginTransaction())
+            {
+                _db.AddRange(TestData.Sections);
+                db.ExecuteSqlRaw("SET IDENTITY_INSERT [dbo].[ProductSection] ON");
+                _db.SaveChanges();
+                db.ExecuteSqlRaw("SET IDENTITY_INSERT  [dbo].[ProductSection] OFF");
 
-                    db.CommitTransaction();
-                }
+                db.CommitTransaction();
+            }
 
-                using (var transaction = db.BeginTransaction())
-                {
-                    _db.AddRange(TestData.Brands);
-                    db.ExecuteSqlRaw("SET IDENTITY_INSERT  [dbo].[ProductBrand] ON");
-                    _db.SaveChanges();
-                    db.ExecuteSqlRaw("SET IDENTITY_INSERT  [dbo].[ProductBrand] OFF");
-                    transaction.Commit();
-                }
+            using (var transaction = db.BeginTransaction())
+            {
+                _db.AddRange(TestData.Brands);
+                db.ExecuteSqlRaw("SET IDENTITY_INSERT  [dbo].[ProductBrand] ON");
+                _db.SaveChanges();
+                db.ExecuteSqlRaw("SET IDENTITY_INSERT  [dbo].[ProductBrand] OFF");
+                transaction.Commit();
+            }
 
-                using (db.BeginTransaction())
-                {
-                    _db.AddRange(TestData.Products);
-                    db.ExecuteSqlRaw("SET IDENTITY_INSERT  [dbo].[Products] ON");
-                    _db.SaveChanges();
-                    db.ExecuteSqlRaw("SET IDENTITY_INSERT  [dbo].[Products] OFF");
-                    db.CommitTransaction();
-                }
+            using (db.BeginTransaction())
+            {
+                _db.AddRange(TestData.Products);
+                db.ExecuteSqlRaw("SET IDENTITY_INSERT  [dbo].[Products] ON");
+                _db.SaveChanges();
+                db.ExecuteSqlRaw("SET IDENTITY_INSERT  [dbo].[Products] OFF");
+                db.CommitTransaction();
+            }
         }
 
         private void InitialiseEmployees()
@@ -79,24 +79,26 @@ namespace WebStore.Data
             var db = _db.Database;
             if (_db.Employees.Any())
                 return;
-            
-                using (db.BeginTransaction())
-                {
-                    _db.AddRange(TestData.Employees);
-                    db.ExecuteSqlRaw("SET IDENTITY_INSERT  [dbo].[Employees] ON");
-                    _db.SaveChanges();
-                    db.ExecuteSqlRaw("SET IDENTITY_INSERT  [dbo].[Employees] OFF");
-                    db.CommitTransaction();
-                }
-            
+
+            using (db.BeginTransaction())
+            {
+                _db.AddRange(TestData.Employees);
+                db.ExecuteSqlRaw("SET IDENTITY_INSERT  [dbo].[Employees] ON");
+                _db.SaveChanges();
+                db.ExecuteSqlRaw("SET IDENTITY_INSERT  [dbo].[Employees] OFF");
+                db.CommitTransaction();
+            }
+
         }
-    
+
         private async Task InitialiseIdentityAsync()
         {
-           //если нет роли администратора, то создаём её
+            //если нет роли администратора, то создаём её
             if (!await _RoleManager.RoleExistsAsync(Role.Administrator))
-                await _RoleManager.CreateAsync(new Role { 
-                 Name = Role.Administrator});
+                await _RoleManager.CreateAsync(new Role
+                {
+                    Name = Role.Administrator
+                });
 
             //если нет роли пользователя, то создаём её
             if (!await _RoleManager.RoleExistsAsync(Role.User))
@@ -106,11 +108,11 @@ namespace WebStore.Data
                 });
 
             //проверяем, есть ли пользователь с этой ролью. Создаём, если нет
-            if(await _UserManager.FindByNameAsync(User.Administrator) is null)
+            if (await _UserManager.FindByNameAsync(User.Administrator) is null)
             {
-                var admin = new User {  UserName = User.Administrator};
+                var admin = new User { UserName = User.Administrator };
                 var result = await _UserManager.CreateAsync(admin, User.DefaultAdminPassword);
-                if(result.Succeeded)
+                if (result.Succeeded)
                 {
                     await _UserManager.AddToRoleAsync(admin, Role.Administrator);
                 }

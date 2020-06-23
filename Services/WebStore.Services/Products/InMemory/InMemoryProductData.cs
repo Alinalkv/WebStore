@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using WebStore.Data;
 using WebStore.Domain.Entities;
-using WebStore.Infrustructure.Interfaces;
+using WebStore.Interfaces.Services;
+using WebStore.Services.Data;
 
-namespace WebStore.Infrustructure.Services
+namespace WebStore.Services.Products.InMemory
 {
     public class InMemoryProductData : IProductData
     {
@@ -30,8 +30,8 @@ namespace WebStore.Infrustructure.Services
 
             return products;
         }
-            
-            
+
+
 
         public IEnumerable<Section> GetSections() => TestData.Sections;
     }

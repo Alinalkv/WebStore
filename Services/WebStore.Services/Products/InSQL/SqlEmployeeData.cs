@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using WebStore.DAL.Context;
-using WebStore.Data;
 using WebStore.Domain.Entities;
-using WebStore.Infrustructure.Interfaces;
+using WebStore.Interfaces.Services;
 
-namespace WebStore.Infrustructure.Services.InSQL
+namespace WebStore.Services.Products.InSQL
 {
     public class SqlEmployeeData : IEmployeesData
     {
@@ -37,7 +35,7 @@ namespace WebStore.Infrustructure.Services.InSQL
             return true;
 
             //вариант 2
-           //_db.Remove(db_employee);
+            //_db.Remove(db_employee);
         }
 
         public void Edit(Employee employee)

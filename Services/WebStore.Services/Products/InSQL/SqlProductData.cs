@@ -5,9 +5,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using WebStore.DAL.Context;
 using WebStore.Domain.Entities;
-using WebStore.Infrustructure.Interfaces;
+using WebStore.Interfaces.Services;
 
-namespace WebStore.Infrustructure.Services.InSQL
+namespace WebStore.Services.Products.InSQL
 {
     public class SqlProductData : IProductData
     {
@@ -25,7 +25,7 @@ namespace WebStore.Infrustructure.Services.InSQL
 
         public IEnumerable<Product> GetProducts(ProductFilter filter = null)
         {
-            IEnumerable <Product> query = _db.Products;
+            IEnumerable<Product> query = _db.Products;
 
             if (filter?.Ids?.Length > 0)
                 query = query.Where(c => filter.Ids.Contains(c.Id));

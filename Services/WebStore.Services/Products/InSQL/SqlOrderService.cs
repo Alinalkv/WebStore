@@ -8,9 +8,9 @@ using WebStore.DAL.Context;
 using WebStore.Domain.Entities.Identity;
 using WebStore.Domain.Entities.Orders;
 using WebStore.Domain.ViewModels;
-using WebStore.Infrustructure.Interfaces;
+using WebStore.Interfaces.Services;
 
-namespace WebStore.Infrustructure.Services.InSQL
+namespace WebStore.Services.Products.InSQL
 {
     public class SqlOrderService : IOrderService
     {
@@ -42,7 +42,7 @@ namespace WebStore.Infrustructure.Services.InSQL
             foreach (var (product_model, quantity) in Cart.Items)
             {
                 var product = await _db.Products.FindAsync(product_model.Id);
-                if(product is null)
+                if (product is null)
                     throw new InvalidOperationException($"Товар Id:{product_model.Id} не найден");
                 var order_item = new OrderItem
                 {

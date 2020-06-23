@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 using WebStore.Domain.Entities;
 using WebStore.Domain.Models;
 using WebStore.Domain.ViewModels;
-using WebStore.Infrustructure.Interfaces;
-using WebStore.Infrustructure.Mapping;
+using WebStore.Interfaces.Services;
+using WebStore.Services.Mapping;
 
-namespace WebStore.Infrustructure.Services.InCookies
+namespace WebStore.Services.Products.InCookies
 {
     public class CookiesCartService : ICartService
     {
@@ -37,8 +37,8 @@ namespace WebStore.Infrustructure.Services.InCookies
                 var context = _HttpContextAccessor.HttpContext;
                 var cookies = context.Response.Cookies;
                 var cart_cookie = context.Request.Cookies[_CartName];
-                
-                if(cart_cookie is null)
+
+                if (cart_cookie is null)
                 {
                     var cart = new Cart();
                     cookies.Append(_CartName, JsonConvert.SerializeObject(cart));
@@ -59,17 +59,17 @@ namespace WebStore.Infrustructure.Services.InCookies
             cookies.Delete(_CartName);
             cookies.Append(_CartName, cookie);
         }
-       
-        
-       /// <summary>
-       /// Добавление в корзину продуктов
-       /// </summary>
-       /// <param name="id"></param>
+
+
+        /// <summary>
+        /// Добавление в корзину продуктов
+        /// </summary>
+        /// <param name="id"></param>
         public void AddToCart(int id)
         {
             var cart = Cart;
             var item = cart.Items.FirstOrDefault(c => c.ProductId == id);
-            if(item is null)
+            if (item is null)
             {
                 cart.Items.Add(new CartItem { ProductId = id, Quantity = 1 });
             }
@@ -116,8 +116,9 @@ namespace WebStore.Infrustructure.Services.InCookies
 
         public CartViewModel TransformFromCart()
         {
-            var products = _ProductData.GetProducts(new ProductFilter { 
-            Ids = Cart.Items.Select(p => p.ProductId).ToArray()
+            var products = _ProductData.GetProducts(new ProductFilter
+            {
+                Ids = Cart.Items.Select(p => p.ProductId).ToArray()
             });
 
             var product_view_models = products.ToView().ToDictionary(p => p.Id);
