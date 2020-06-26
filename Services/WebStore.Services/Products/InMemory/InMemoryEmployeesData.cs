@@ -8,6 +8,7 @@ using WebStore.Services.Data;
 
 namespace WebStore.Services.Products.InMemory
 {
+    [Obsolete("Используйте SqlEmployeeData", error: true)]
     public class InMemoryEmployeesData : IEmployeesData
     {
         private readonly List<Employee> _Employees = TestData.Employees;
