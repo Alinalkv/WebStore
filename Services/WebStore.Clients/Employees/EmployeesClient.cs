@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
+using System.Net.Http;
 using System.Text;
 using WebStore.Clients.Base;
 using WebStore.Domain;
@@ -13,34 +14,16 @@ namespace WebStore.Clients.Employees
     {
         public EmployeesClient(IConfiguration Configuration) : base(Configuration, WebApi.Employees) { }
 
-        public int Add(Employee employee)
-        {
-            throw new NotImplementedException();
-        }
+        public IEnumerable<Employee> Get() => Get<IEnumerable<Employee>>(_ServiceAddress);
 
-        public bool Delete(int id)
-        {
-            throw new NotImplementedException();
-        }
+        public Employee GetById(int id) => Get<Employee>($"{_ServiceAddress}/{id}");
 
-        public void Edit(Employee employee)
-        {
-            throw new NotImplementedException();
-        }
+        //так как надо получить id
+        public int Add(Employee employee) => Post<Employee>(_ServiceAddress, employee).Content.ReadAsAsync<int>().Result;
 
-        public IEnumerable<Employee> Get()
-        {
-            throw new NotImplementedException();
-        }
+        public void Edit(Employee employee) => Put<Employee>(_ServiceAddress, employee);
+        public bool Delete(int id) => Delete($"{_ServiceAddress}/{id}").IsSuccessStatusCode;
 
-        public Employee GetById(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void SaveChanges()
-        {
-            throw new NotImplementedException();
-        }
+        public void SaveChanges() { }
     }
 }
