@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace WebStore.Clients.Base
@@ -33,12 +34,12 @@ namespace WebStore.Clients.Base
         /// <typeparam name="T">Тип данных, которые будут получены</typeparam>
         /// <param name="url">Адрес, по которому будет поиск данных</param>
         /// <returns></returns>
-        public async Task<T> GetTAsync<T>(string url)
+        public async Task<T> GetTAsync<T>(string url, CancellationToken Cancel = default)
         {
             //полуаем данные по адресу
-            var response = await _Client.GetAsync(url);
+            var response = await _Client.GetAsync(url, Cancel);
             //если ок, то десериализуем в нужный нам формат
-            return await response.EnsureSuccessStatusCode().Content.ReadAsAsync<T>();
+            return await response.EnsureSuccessStatusCode().Content.ReadAsAsync<T>(Cancel);
         }
 
         public HttpResponseMessage Post<T>(string url, T item) => PostAsync<T>(url, item).Result;
@@ -49,9 +50,9 @@ namespace WebStore.Clients.Base
         /// <param name="url">адрес</param>
         /// <param name="item">сущность, которую надо создат</param>
         /// <returns></returns>
-        public async Task<HttpResponseMessage> PostAsync<T>(string url, T item)
+        public async Task<HttpResponseMessage> PostAsync<T>(string url, T item, CancellationToken Cancel = default)
         {
-            var response = await _Client.PostAsJsonAsync(url, item);
+            var response = await _Client.PostAsJsonAsync(url, item, Cancel);
             return response.EnsureSuccessStatusCode();
         }
 
@@ -63,9 +64,9 @@ namespace WebStore.Clients.Base
         /// <param name="url">адрес</param>
         /// <param name="item">сущность, которую надо изменить</param>
         /// <returns></returns>
-        public async Task<HttpResponseMessage> PutAsync<T>(string url, T item)
+        public async Task<HttpResponseMessage> PutAsync<T>(string url, T item, CancellationToken Cancel = default)
         {
-            var response = await _Client.PostAsJsonAsync(url, item);
+            var response = await _Client.PostAsJsonAsync(url, item, Cancel);
             return response.EnsureSuccessStatusCode();
         }
 
@@ -76,6 +77,6 @@ namespace WebStore.Clients.Base
        /// </summary>
        /// <param name="url"></param>
        /// <returns></returns>
-        public async Task<HttpResponseMessage> DeleteAsync(string url) => await _Client.DeleteAsync(url);
+        public async Task<HttpResponseMessage> DeleteAsync(string url, CancellationToken Cancel = default) => await _Client.DeleteAsync(url, Cancel);
     }
 }
