@@ -33,7 +33,8 @@ namespace WebStore.ServiceHosting
           
            // services.AddTransient<WebStoreDBInitialiser>();
             services.AddControllers();
-            services.AddScoped<IEmployeesData, SqlEmployeeData>();
+            services.AddScoped<IEmployeesData, SqlEmployeeData>()
+                .AddScoped<IProductData, SqlProductData>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env/*, WebStoreDBInitialiser db*/)
