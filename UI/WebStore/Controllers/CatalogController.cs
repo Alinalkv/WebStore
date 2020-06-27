@@ -52,7 +52,7 @@ namespace WebStore.Controllers
             var product = _IProductData.GetProductById(id);
             if (product is null)
                 return NotFound();
-            return View(product.ToView());
+            return View(product.FromDTO().ToView());
         }
     }
 }

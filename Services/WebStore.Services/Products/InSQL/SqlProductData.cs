@@ -7,6 +7,7 @@ using WebStore.DAL.Context;
 using WebStore.Domain.DTO.Products;
 using WebStore.Domain.Entities;
 using WebStore.Interfaces.Services;
+using WebStore.Services.Mapping;
 
 namespace WebStore.Services.Products.InSQL
 {
@@ -22,7 +23,8 @@ namespace WebStore.Services.Products.InSQL
         public ProductDTO GetProductById(int id) => _db.Products
             .Include(p => p.Brand)
             .Include(p => p.Section)
-            .FirstOrDefault(p => p.Id == id);
+            .FirstOrDefault(p => p.Id == id)
+            .ToDTO();
 
         public IEnumerable<ProductDTO> GetProducts(ProductFilter filter = null)
         {
@@ -38,7 +40,7 @@ namespace WebStore.Services.Products.InSQL
                 if (filter?.SectionId != null)
                     query = query.Where(c => c.SectionId == filter.SectionId);
             }
-            return query;
+            return query.Select(p => p.ToDTO());
         }
 
         public IEnumerable<Section> GetSections() => _db.Sections;
