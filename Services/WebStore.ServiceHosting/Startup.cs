@@ -31,14 +31,14 @@ namespace WebStore.ServiceHosting
             
             services.AddDbContext<WebStoreDB>(opt => opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
           
-            services.AddTransient<WebStoreDBInitialiser>();
+           // services.AddTransient<WebStoreDBInitialiser>();
             services.AddControllers();
             services.AddScoped<IEmployeesData, SqlEmployeeData>();
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, WebStoreDBInitialiser db)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env/*, WebStoreDBInitialiser db*/)
         {
-            db.Initialise();
+           // db.Initialise();
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

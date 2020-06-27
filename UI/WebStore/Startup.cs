@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
+using WebStore.Clients.Employees;
 using WebStore.Clients.Values;
 using WebStore.DAL.Context;
 using WebStore.Domain.Entities.Identity;
@@ -79,7 +80,8 @@ namespace WebStore
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
             //зарегали сервис для работы с сотруниками
             //services.AddSingleton<IEmployeesData, InMemoryEmployeesData>();
-            services.AddScoped<IEmployeesData, SqlEmployeeData>();
+            services.AddScoped<IEmployeesData, EmployeesClient>();
+           // services.AddScoped<IEmployeesData, SqlEmployeeData>();
             // services.AddSingleton<IProductData, InMemoryProductData>();
             services.AddScoped<IProductData, SqlProductData>();
             services.AddScoped<ICartService, CookiesCartService>();

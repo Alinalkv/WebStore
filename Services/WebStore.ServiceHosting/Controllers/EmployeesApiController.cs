@@ -30,13 +30,27 @@ namespace WebStore.ServiceHosting.Controllers
         //HttpPost - создаёт внутри логики сервиса новые данные
         //FromBody - employee будет передаваться в теле запроса
         [HttpPost]
-        public int Add([FromBody] Employee employee) => _EmployeesData.Add(employee);
+        public int Add([FromBody] Employee employee)
+        {
+            var id = _EmployeesData.Add(employee);
+            SaveChanges();
+            return id;
+        }
 
         [HttpPut]
-        public void Edit(Employee employee) => _EmployeesData.Edit(employee);
+        public void Edit(Employee employee)
+        {
+            _EmployeesData.Edit(employee);
+            SaveChanges();
+        }
 
         [HttpDelete("{id}")]
-        public bool Delete(int id) => _EmployeesData.Delete(id);
+        public bool Delete(int id)
+        {
+           var success = _EmployeesData.Delete(id);
+            SaveChanges();
+            return success;
+        }
         
         public void SaveChanges() => _EmployeesData.SaveChanges();
 
