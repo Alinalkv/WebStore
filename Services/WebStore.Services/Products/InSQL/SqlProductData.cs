@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WebStore.DAL.Context;
+using WebStore.Domain.DTO.Products;
 using WebStore.Domain.Entities;
 using WebStore.Interfaces.Services;
 
@@ -18,12 +19,12 @@ namespace WebStore.Services.Products.InSQL
         public IEnumerable<Brand> GetBrands() => _db.Brands;
 
         //include добавляют через join данные в выборку
-        public Product GetProductById(int id) => _db.Products
+        public ProductDTO GetProductById(int id) => _db.Products
             .Include(p => p.Brand)
             .Include(p => p.Section)
             .FirstOrDefault(p => p.Id == id);
 
-        public IEnumerable<Product> GetProducts(ProductFilter filter = null)
+        public IEnumerable<ProductDTO> GetProducts(ProductFilter filter = null)
         {
             IEnumerable<Product> query = _db.Products;
 
