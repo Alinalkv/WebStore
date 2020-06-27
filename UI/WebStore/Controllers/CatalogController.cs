@@ -35,6 +35,7 @@ namespace WebStore.Controllers
                 BrandId = BrandId,
                 SectionId = SectionId,
                 Products = products
+                .Select(p => p.FromDTO())
                 .Select(Mapper.Map<ProductViewModel>)
                // .ToView()
                 .OrderBy(p => p.Order)

@@ -44,7 +44,7 @@ namespace WebStore.Services.Mapping
             Brand = p.Brand.FromDTO(),
             BrandId = p.Brand?.Id,
             Section = p.Section.FromDTO(),
-            SectionId = p.Section.Id,
+           // SectionId = p.Section.Id,
         };
     }
 
