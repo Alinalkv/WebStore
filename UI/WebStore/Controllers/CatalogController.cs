@@ -35,6 +35,7 @@ namespace WebStore.Controllers
                 BrandId = BrandId,
                 SectionId = SectionId,
                 Products = products
+                .Select(p => p.FromDTO())
                 .Select(Mapper.Map<ProductViewModel>)
                // .ToView()
                 .OrderBy(p => p.Order)
@@ -52,7 +53,7 @@ namespace WebStore.Controllers
             var product = _IProductData.GetProductById(id);
             if (product is null)
                 return NotFound();
-            return View(product.ToView());
+            return View(product.FromDTO().ToView());
         }
     }
 }

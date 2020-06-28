@@ -4,8 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WebStore.DAL.Context;
+using WebStore.Domain.DTO.Products;
 using WebStore.Domain.Entities;
 using WebStore.Interfaces.Services;
+using WebStore.Services.Mapping;
 
 namespace WebStore.Services.Products.InSQL
 {
@@ -18,12 +20,13 @@ namespace WebStore.Services.Products.InSQL
         public IEnumerable<Brand> GetBrands() => _db.Brands;
 
         //include добавляют через join данные в выборку
-        public Product GetProductById(int id) => _db.Products
+        public ProductDTO GetProductById(int id) => _db.Products
             .Include(p => p.Brand)
             .Include(p => p.Section)
-            .FirstOrDefault(p => p.Id == id);
+            .FirstOrDefault(p => p.Id == id)
+            .ToDTO();
 
-        public IEnumerable<Product> GetProducts(ProductFilter filter = null)
+        public IEnumerable<ProductDTO> GetProducts(ProductFilter filter = null)
         {
             IEnumerable<Product> query = _db.Products;
 
@@ -37,7 +40,7 @@ namespace WebStore.Services.Products.InSQL
                 if (filter?.SectionId != null)
                     query = query.Where(c => c.SectionId == filter.SectionId);
             }
-            return query;
+            return query.Select(p => p.ToDTO());
         }
 
         public IEnumerable<Section> GetSections() => _db.Sections;
