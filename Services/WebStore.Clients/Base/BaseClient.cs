@@ -26,7 +26,7 @@ namespace WebStore.Clients.Base
             };
         }
 
-        public T Get<T>(string url) => GetTAsync<T>(url).Result;
+        public T Get<T>(string url) => GetAsync<T>(url).Result;
 
         /// <summary>
         /// Получить данные по адресу
@@ -34,7 +34,7 @@ namespace WebStore.Clients.Base
         /// <typeparam name="T">Тип данных, которые будут получены</typeparam>
         /// <param name="url">Адрес, по которому будет поиск данных</param>
         /// <returns></returns>
-        public async Task<T> GetTAsync<T>(string url, CancellationToken Cancel = default)
+        public async Task<T> GetAsync<T>(string url, CancellationToken Cancel = default)
         {
             //полуаем данные по адресу
             var response = await _Client.GetAsync(url, Cancel);
