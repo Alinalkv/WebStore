@@ -19,6 +19,7 @@ namespace WebStore.ServiceHosting.Controllers
         private readonly RoleStore<Role> _RoleStore;
         public RolesApiController(WebStoreDB db)
         {
-            _RoleStore = new RoleStore<Role>(db);        }
+            _RoleStore = new RoleStore<Role>(db);       
+        }
     }
 }
