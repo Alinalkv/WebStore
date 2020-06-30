@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace WebStore.Clients.Base
 {
-    public abstract class BaseClient
+    public abstract class BaseClient : IDisposable
     {
         protected readonly HttpClient _Client;
         protected readonly string _ServiceAddress;
@@ -78,5 +78,13 @@ namespace WebStore.Clients.Base
        /// <param name="url"></param>
        /// <returns></returns>
         public async Task<HttpResponseMessage> DeleteAsync(string url, CancellationToken Cancel = default) => await _Client.DeleteAsync(url, Cancel);
+
+        #region IDisposabe
+
+        public void Dispose()
+        {
+            throw new NotImplementedException();
+        }
+        #endregion
     }
 }
