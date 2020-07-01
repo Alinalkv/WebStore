@@ -10,6 +10,9 @@ using WebStore.Interfaces.Services;
 
 namespace WebStore.ServiceHosting.Controllers
 {
+    /// <summary>
+    /// Управление сотрудниками магазина
+    /// </summary>
     //[Route("api/[controller]")]
     //[Route("api/employees")]
     [Route(WebApi.Employees)]
@@ -20,15 +23,28 @@ namespace WebStore.ServiceHosting.Controllers
 
         public EmployeesApiController(IEmployeesData EmployeesData) => _EmployeesData = EmployeesData;
 
-        //HttpGet - получение данных
+        /// <summary>
+        /// Получить всех сотрудников
+        /// </summary>
+        /// <returns>Список сотрудников</returns>
         [HttpGet]
         public IEnumerable<Employee> Get() => _EmployeesData.Get();
 
+        /// <summary>
+        /// Получить сотрудника по идентификатору
+        /// </summary>
+        /// <param name="id">Идентификатор сотрудника</param>
+        /// <returns>Сотрудник</returns>
         [HttpGet("{id}")]
         public Employee GetById(int id) => _EmployeesData.GetById(id);
 
         //HttpPost - создаёт внутри логики сервиса новые данные
         //FromBody - employee будет передаваться в теле запроса
+        /// <summary>
+        /// Добавить сотрудника
+        /// </summary>
+        /// <param name="employee">Сотрудник, которого нужно добавить</param>
+        /// <returns>Идентификатор сотрудника</returns>
         [HttpPost]
         public int Add([FromBody] Employee employee)
         {
@@ -37,6 +53,10 @@ namespace WebStore.ServiceHosting.Controllers
             return id;
         }
 
+        /// <summary>
+        /// Редактирование сотрудника
+        /// </summary>
+        /// <param name="employee">Сотрудник, которого нужно отредактировать</param>
         [HttpPut]
         public void Edit(Employee employee)
         {
@@ -44,6 +64,11 @@ namespace WebStore.ServiceHosting.Controllers
             SaveChanges();
         }
 
+        /// <summary>
+        /// Удаление сотрудника
+        /// </summary>
+        /// <param name="id">Идентификатор сотрудника, которого нужно удалить</param>
+        /// <returns>Результат удаления сотрудника</returns>
         [HttpDelete("{id}")]
         public bool Delete(int id)
         {
@@ -52,6 +77,9 @@ namespace WebStore.ServiceHosting.Controllers
             return success;
         }
         
+        /// <summary>
+        /// Сохранение изменений
+        /// </summary>
         [NonAction]
         public void SaveChanges() => _EmployeesData.SaveChanges();
 
