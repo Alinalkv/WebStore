@@ -83,7 +83,18 @@ namespace WebStore.Clients.Base
 
         public void Dispose()
         {
-            throw new NotImplementedException();
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if(disposing)
+            {
+                //финализация управляемых ресурсов
+                _Client.Dispose();
+            }
+            //финализация неуправляемых ресурсов
         }
         #endregion
     }
