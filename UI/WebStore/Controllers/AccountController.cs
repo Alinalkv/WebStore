@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using Microsoft.VisualBasic;
 using WebStore.Domain.Entities.Identity;
 using WebStore.Domain.ViewModels.Identity;
 
@@ -14,9 +16,12 @@ namespace WebStore.Controllers
 
         private readonly UserManager<User> _UserManager;
         private readonly SignInManager<User> _SignInManager;
-        public AccountController(UserManager<User> UserManager, SignInManager<User> SignInManager) {
+        private readonly ILogger<AccountController> _Logger;
+
+        public AccountController(UserManager<User> UserManager, SignInManager<User> SignInManager, ILogger<AccountController> Logger) {
             _UserManager = UserManager;
             _SignInManager = SignInManager;
+            _Logger = Logger;
         }
 
         #region Register
@@ -27,29 +32,43 @@ namespace WebStore.Controllers
         {
             if (!ModelState.IsValid)
                 return View(Model);
-
+            
             var user = new User
             {
                 UserName = Model.UserName
             };
-
-            var registration_result = await _UserManager.CreateAsync(user, Model.Password);
-            if (registration_result.Succeeded)
+            using (_Logger.BeginScope("регистрации нового пользователя {0}", user.UserName))
             {
-                //добавление роли новому пользователю
-                await _UserManager.AddToRoleAsync(user, Role.User);
-                await _SignInManager.SignInAsync(user, false);
-                return RedirectToAction("Index", "Home");
+                _Logger.LogInformation("Начинается процесс регистрации нового пользователя {0}", user.UserName);
+                var registration_result = await _UserManager.CreateAsync(user, Model.Password);
+                if (registration_result.Succeeded)
+                {
+                    _Logger.LogInformation("Пользователь {0} успешно зарегистрирован", user.UserName);
+                    //добавление роли новому пользователю
+                    await _UserManager.AddToRoleAsync(user, Role.User);
+                    //var add_role = await _UserManager.AddToRoleAsync(user, Role.User);
+                    //if(add_role.Succeeded)
+                    //{
+                    //    _Logger.LogInformation("Пользователю {0} добавлена роль {1}", user.UserName, Role.User);
+                    //}
+                    //else
+                    //{
+                    //    _Logger.LogError("Ошибка при добавлении пользователю {0} роли {1}: {2}", user.UserName, Role.User,
+                    //        string.Join(",", add_role.Errors.Select(error => error.Description)));
+                    //    throw new ApplicationException("Ошибка наделения нового пользователя ролью");
+                    //}
+                    await _SignInManager.SignInAsync(user, false);
+                    _Logger.LogInformation("Пользователь {0} успешно вошёл в систему", user.UserName);
+                    return RedirectToAction("Index", "Home");
+                }
+                _Logger.LogError("Ошибка при добавлении пользователю {0} роли {1}: {2}", user.UserName, Role.User,
+                            string.Join(",", registration_result.Errors.Select(error => error.Description)));
+                foreach (var error in registration_result.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, error.Description);
+                }
             }
-
-            foreach (var error in registration_result.Errors)
-            {
-                ModelState.AddModelError(string.Empty, error.Description);
-            }
-
             return View(Model);
-
-
         }
         #endregion
 
