@@ -89,11 +89,16 @@ namespace WebStore.Controllers
 
             if (login_result.Succeeded)
             {
+                _Logger.LogInformation("Пользователь {0} успешно вошёл в систему", Model.UserName);
                 if (Url.IsLocalUrl(Model.ReturnUrl))
+                {
+                    _Logger.LogInformation("Пользователь {0} перенаправлен на {1}", Model.UserName, Model.ReturnUrl);
                     return Redirect(Model.ReturnUrl);
+                }
+                _Logger.LogInformation("Пользователь {0} перенаправлен на главную страницу", Model.UserName);
                 return RedirectToAction("Index", "Home");
             }
-
+            _Logger.LogWarning("Пользователь {0} произвёл некорректную попытку входа", Model.UserName);
             ModelState.AddModelError(string.Empty, "Неверное имя пользователя или пароль");
             return View(Model);
         }
@@ -101,6 +106,7 @@ namespace WebStore.Controllers
         public async Task<IActionResult> Logout()
         {
             await _SignInManager.SignOutAsync();
+            _Logger.LogInformation("Пользователь {0} вышел из системы", User.Identity.Name);
             return RedirectToAction("Index", "Home");
         }
         public IActionResult AccessDenied() => View();
