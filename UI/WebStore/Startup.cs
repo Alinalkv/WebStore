@@ -109,7 +109,6 @@ namespace WebStore
             
             app.UseStaticFiles();
             app.UseDefaultFiles();
-
             
             app.UseRouting();
             

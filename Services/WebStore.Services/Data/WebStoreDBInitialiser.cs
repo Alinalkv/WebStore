@@ -16,26 +16,26 @@ namespace WebStore.Services.Data
         private readonly WebStoreDB _db;
         private readonly UserManager<User> _UserManager;
         private readonly RoleManager<Role> _RoleManager;
-       // private readonly ILogger _Logger;
+        private readonly ILogger _Logger;
 
-        public WebStoreDBInitialiser(WebStoreDB db, UserManager<User> UserManager, RoleManager<Role> RoleManager/*, ILogger Logger*/)
+        public WebStoreDBInitialiser(WebStoreDB db, UserManager<User> UserManager, RoleManager<Role> RoleManager, ILogger<WebStoreDBInitialiser> Logger)
         {
             _db = db;
             _UserManager = UserManager;
             _RoleManager = RoleManager;
-            //_Logger = Logger;
+            _Logger = Logger;
         }
 
         public void Initialise()
         {
             var db = _db.Database;
-            //if (db.GetPendingMigrations().Any())
-            //{
-            //    _Logger.LogInformation("Подготовка к миграции БД");
-            //    db.Migrate();
-            //    _Logger.LogInformation("Миграция БД выполнена");
-            //}
-            db.Migrate();
+           if (db.GetPendingMigrations().Any())
+            {
+               _Logger.LogInformation("Подготовка к миграции БД");
+                db.Migrate();
+                _Logger.LogInformation("Миграция БД выполнена");
+            }
+           // db.Migrate();
 
             InitialiseProducts();
 
