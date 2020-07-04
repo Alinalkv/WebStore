@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using WebStore.Domain;
 using WebStore.Domain.Entities;
 using WebStore.Interfaces.Services;
@@ -20,8 +21,13 @@ namespace WebStore.ServiceHosting.Controllers
     public class EmployeesApiController : ControllerBase, IEmployeesData
     {
         private readonly IEmployeesData _EmployeesData;
+        private readonly ILogger<EmployeesApiController> _Logger;
 
-        public EmployeesApiController(IEmployeesData EmployeesData) => _EmployeesData = EmployeesData;
+        public EmployeesApiController(IEmployeesData EmployeesData, ILogger<EmployeesApiController> Logger) 
+        {
+            _EmployeesData = EmployeesData;
+            _Logger = Logger;
+        } 
 
         /// <summary>
         /// Получить всех сотрудников
@@ -48,6 +54,8 @@ namespace WebStore.ServiceHosting.Controllers
         [HttpPost]
         public int Add([FromBody] Employee employee)
         {
+            _Logger.LogInformation("Добавление нового сотрудника: [{0}] {1} {2} {3}",
+                employee.Id, employee.Surname, employee.FirstName, employee.SecondName);
             var id = _EmployeesData.Add(employee);
             SaveChanges();
             return id;
@@ -60,6 +68,8 @@ namespace WebStore.ServiceHosting.Controllers
         [HttpPut]
         public void Edit(Employee employee)
         {
+            _Logger.LogInformation("Редактирование сотрудника: [{0}] {1} {2} {3}",
+                employee.Id, employee.Surname, employee.FirstName, employee.SecondName);
             _EmployeesData.Edit(employee);
             SaveChanges();
         }
@@ -72,7 +82,8 @@ namespace WebStore.ServiceHosting.Controllers
         [HttpDelete("{id}")]
         public bool Delete(int id)
         {
-           var success = _EmployeesData.Delete(id);
+            _Logger.LogInformation("Удаление сотрудника с id: [{0}]", id);
+            var success = _EmployeesData.Delete(id);
             SaveChanges();
             return success;
         }
