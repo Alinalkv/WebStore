@@ -18,6 +18,7 @@ using WebStore.Domain.Entities.Identity;
 using WebStore.Interfaces.Services;
 using WebStore.Services.Data;
 using WebStore.Services.Products.InSQL;
+using WebStore.Logger;
 
 namespace WebStore.ServiceHosting
 {
@@ -81,8 +82,9 @@ namespace WebStore.ServiceHosting
             });
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, WebStoreDBInitialiser db)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, WebStoreDBInitialiser db, ILoggerFactory log)
         {
+            log.AddLog4Net();
             db.Initialise();
             if (env.IsDevelopment())
             {

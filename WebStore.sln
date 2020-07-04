@@ -19,9 +19,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebStore.Interfaces", "Serv
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebStore.Services", "Services\WebStore.Services\WebStore.Services.csproj", "{602AAE2C-76DE-48A0-A39E-331DE4740788}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebStore.ServiceHosting", "Services\WebStore.ServiceHosting\WebStore.ServiceHosting.csproj", "{0CDDD87E-67F7-491A-ADEB-3E6A09576F06}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebStore.ServiceHosting", "Services\WebStore.ServiceHosting\WebStore.ServiceHosting.csproj", "{0CDDD87E-67F7-491A-ADEB-3E6A09576F06}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebStore.Clients", "Services\WebStore.Clients\WebStore.Clients.csproj", "{6D677BB0-1D6D-485E-BB5A-962AEF9D9F69}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebStore.Clients", "Services\WebStore.Clients\WebStore.Clients.csproj", "{6D677BB0-1D6D-485E-BB5A-962AEF9D9F69}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebStore.Logger", "WebStore.Logger\WebStore.Logger.csproj", "{135FB3E7-512B-4C8E-8A41-F150234436B8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -57,6 +59,10 @@ Global
 		{6D677BB0-1D6D-485E-BB5A-962AEF9D9F69}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6D677BB0-1D6D-485E-BB5A-962AEF9D9F69}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6D677BB0-1D6D-485E-BB5A-962AEF9D9F69}.Release|Any CPU.Build.0 = Release|Any CPU
+		{135FB3E7-512B-4C8E-8A41-F150234436B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{135FB3E7-512B-4C8E-8A41-F150234436B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{135FB3E7-512B-4C8E-8A41-F150234436B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{135FB3E7-512B-4C8E-8A41-F150234436B8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -69,6 +75,7 @@ Global
 		{602AAE2C-76DE-48A0-A39E-331DE4740788} = {8D53D5ED-6FF6-48EE-A6D9-693771899544}
 		{0CDDD87E-67F7-491A-ADEB-3E6A09576F06} = {8D53D5ED-6FF6-48EE-A6D9-693771899544}
 		{6D677BB0-1D6D-485E-BB5A-962AEF9D9F69} = {8D53D5ED-6FF6-48EE-A6D9-693771899544}
+		{135FB3E7-512B-4C8E-8A41-F150234436B8} = {5C0F6847-9A19-40FC-8991-1F02B71951EC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {509028D3-E23C-4AF8-929F-ABB79516070D}

@@ -28,7 +28,7 @@ namespace WebStore.Components
             {
                 Id = s.Id,
                 Order = s.Order,
-                Name = s.Name
+                Name = s.Name,
             }).ToList();
 
             foreach (var parent_section in parent_sections_views)

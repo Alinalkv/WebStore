@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,18 +16,26 @@ namespace WebStore.Services.Data
         private readonly WebStoreDB _db;
         private readonly UserManager<User> _UserManager;
         private readonly RoleManager<Role> _RoleManager;
+        private readonly ILogger<WebStoreDBInitialiser> _Logger;
 
-        public WebStoreDBInitialiser(WebStoreDB db, UserManager<User> UserManager, RoleManager<Role> RoleManager)
+        public WebStoreDBInitialiser(WebStoreDB db, UserManager<User> UserManager, RoleManager<Role> RoleManager, ILogger<WebStoreDBInitialiser> Logger)
         {
             _db = db;
             _UserManager = UserManager;
             _RoleManager = RoleManager;
+            _Logger = Logger;
         }
 
         public void Initialise()
         {
             var db = _db.Database;
-            db.Migrate();
+           if (db.GetPendingMigrations().Any())
+           {
+               _Logger.LogInformation("Подготовка к миграции БД");
+                db.Migrate();
+                _Logger.LogInformation("Миграция БД выполнена");
+            }
+           db.Migrate();
 
             InitialiseProducts();
 
