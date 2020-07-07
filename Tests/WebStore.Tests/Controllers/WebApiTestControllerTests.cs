@@ -35,6 +35,10 @@ namespace WebStore.Tests.Controllers
             //проверяем, что вызывался только Get()
             value_service_mock.Verify(service => service.Get());
             value_service_mock.VerifyNoOtherCalls();
+
+            #region Assert - Проверка
+
+            #endregion
         }
     }
 }
