@@ -16,6 +16,8 @@ namespace WebStore.Controllers
         public IActionResult BlogSingle() => View();
         public IActionResult ContactUs() => View();
 
+        public IActionResult Throw(string id) => throw new ApplicationException(id ?? "Error");
+
 
     }
 }
