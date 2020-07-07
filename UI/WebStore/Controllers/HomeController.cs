@@ -18,6 +18,18 @@ namespace WebStore.Controllers
 
         public IActionResult Throw(string id) => throw new ApplicationException(id ?? "Error");
 
+        public IActionResult ErrorStatus(string Code)
+        {
+            switch(Code)
+            {
+                case "404":
+                    return RedirectToAction(nameof(Error404));
+                default:
+                    return Content($"Error code: {Code}");
+            }
+                
+        }
+
 
     }
 }

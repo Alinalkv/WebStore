@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
@@ -92,6 +93,19 @@ namespace WebStore.Tests.Controllers
 
             var exception = Assert.Throws<ApplicationException>(() => controller.Throw(expected_message));
             Assert.Equal(expected_message, exception.Message);
+
+        }
+
+        [TestMethod]
+        public void ErrorStatus_404_RedirrectTo_Error404()
+        {
+            var controller = new HomeController();
+            const string status_code_404 = "404";
+            var result = controller.ErrorStatus(status_code_404);
+            var redirrect_to_act = Assert.IsType<RedirectToActionResult>(result);
+            //имя контроллера не дб указано
+            Assert.Null(redirrect_to_act.ControllerName);
+            Assert.Equal(nameof(HomeController.Error404), redirrect_to_act.ActionName);
 
         }
     }
