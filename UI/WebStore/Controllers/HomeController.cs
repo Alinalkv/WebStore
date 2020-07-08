@@ -14,12 +14,22 @@ namespace WebStore.Controllers
         public IActionResult Error404() => View();
         public IActionResult Blog() => View();
         public IActionResult BlogSingle() => View();
-        public IActionResult Cart() => View();
-        public IActionResult Checkout() => View();
         public IActionResult ContactUs() => View();
-        public IActionResult Login() => View();
-        public IActionResult ProductDetails() => View();
-        public IActionResult Shop() => View();
+
+        public IActionResult Throw(string id) => throw new ApplicationException(id ?? "Error");
+
+        public IActionResult ErrorStatus(string Code)
+        {
+            switch(Code)
+            {
+                case "404":
+                    return RedirectToAction(nameof(Error404));
+                default:
+                    return Content($"Error code: {Code}");
+            }
+                
+        }
+
 
     }
 }
