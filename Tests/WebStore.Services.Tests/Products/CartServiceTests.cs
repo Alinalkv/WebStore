@@ -2,6 +2,7 @@
 using Moq;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using WebStore.Domain.DTO.Products;
@@ -20,7 +21,7 @@ namespace WebStore.Services.Tests.Products
         private Cart _Cart;
         private Mock<IProductData> _ProductDataMock;
         private Mock<ICartStore> _CartStoreMock;
-        private Mock<ICartService> __CartService;
+        private ICartService _CartService;
 
         [TestInitialize]
         public void TestInitialize()
@@ -96,6 +97,73 @@ namespace WebStore.Services.Tests.Products
             const int exp_count = 4;
             var actual_count = CartViewModel.ItemsCount;
             Assert.Equal(exp_count, actual_count);
+        }
+
+        [TestMethod]
+        public void CartService_Add_To_Cart()
+        {
+            _Cart.Items.Clear();
+            const int exp_id = 5;
+
+            _CartService.AddToCart(exp_id);
+
+            Assert.Equal(1, _Cart.ItemsCount);
+            Assert.Single(_Cart.Items);
+            Assert.Equal(exp_id, _Cart.Items[0].ProductId);
+        }
+
+        [TestMethod]
+        public void CartService_Remove_From_Cart()
+        {
+            const int exp_id = 1;
+
+            _CartService.RemoveFromCart(exp_id);
+
+            Assert.Single(_Cart.Items);
+            Assert.Equal(2, _Cart.Items[0].ProductId);
+        }
+
+        [TestMethod]
+        public void CartService_RemoveAll_ClearCart()
+        {
+
+            _CartService.RemoveAll();
+
+            Assert.Empty(_Cart.Items);
+        }
+
+        [TestMethod]
+        public void CartService_Decrement_Correct()
+        {
+            const int decr_id = 2;
+            _CartService.DecrementFromCart(decr_id);
+
+            Assert.Equal(3, _Cart.ItemsCount); //3 товара
+            Assert.Equal(2, _Cart.Items.Count); //2 вида товаров
+            Assert.Equal(decr_id, _Cart.Items[1].ProductId);
+            Assert.Equal(2, _Cart.Items[1].Quantity);
+        }
+
+        [TestMethod]
+        public void CartService_Remove_When_Decrement_To_0()
+        {
+            const int decr_id = 1;
+            _CartService.DecrementFromCart(decr_id);
+
+            Assert.Equal(3, _Cart.ItemsCount); //3 товара
+            Assert.Single(_Cart.Items);
+
+        }
+
+
+        [TestMethod]
+        public void CartService_TransformFromCart_WorkCorrect()
+        {
+            var result = _CartService.TransformFromCart();
+
+            Assert.Equal(4, result.ItemsCount);
+            Assert.Equal(1.1m, result.Items.First().product.Price);
+
         }
     }
 }
