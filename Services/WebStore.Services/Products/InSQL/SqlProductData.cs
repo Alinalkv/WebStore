@@ -17,6 +17,8 @@ namespace WebStore.Services.Products.InSQL
 
         public SqlProductData(WebStoreDB db) => _db = db;
 
+        public Brand GetBrand(int Id) => _db.Brands.Find(Id);
+
         public IEnumerable<Brand> GetBrands() => _db.Brands;
 
         //include добавляют через join данные в выборку
@@ -42,6 +44,8 @@ namespace WebStore.Services.Products.InSQL
             }
             return query.Select(p => p.ToDTO());
         }
+
+        public Section GetSection(int Id) => _db.Sections.Include(p => p.ParentSection).FirstOrDefault(s => s.Id == Id);
 
         public IEnumerable<Section> GetSections() => _db.Sections;
     }

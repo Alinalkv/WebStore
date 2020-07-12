@@ -15,14 +15,26 @@ namespace WebStore.Components
         {
             _ProductData = ProductData;
         }
-        
+
         //во вью компоненте дб invoke
         //делаем какую-то логику и возвращаем представление
-        public IViewComponentResult Invoke() => View(GetSections());
-
-        private IEnumerable<SectionViewModel> GetSections()
+        public IViewComponentResult Invoke(string SectionId)
         {
-            var sections = _ProductData.GetSections();
+            var section_id = int.TryParse(SectionId, out var id) ? id : (int?)null;
+            var sections = GetSections(section_id, out var parent_section_id);
+            
+            return View(new SelectableSectionsViewModel
+            { 
+             Sections = sections,
+             CurrentSectionId = section_id,
+             ParentSectionId = parent_section_id
+            });
+        }
+
+        private IEnumerable<SectionViewModel> GetSections(int? SectionId, out int? ParentSectionId)
+        {
+            ParentSectionId = null;
+            var sections = _ProductData.GetSections().ToArray();
             var parent_sections = sections.Where(c => c.ParentId is null);
             var parent_sections_views = parent_sections.Select(s => new SectionViewModel
             {
@@ -36,6 +48,9 @@ namespace WebStore.Components
                 var child_sections = sections.Where(c => c.ParentId == parent_section.Id);
                 foreach (var child in child_sections)
                 {
+                    if (child.Id == SectionId)
+                        ParentSectionId = parent_section.Id;
+                    
                     parent_section.ChildSections.Add(new SectionViewModel {
                         Id = child.Id,
                         Order = child.Order,

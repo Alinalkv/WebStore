@@ -12,6 +12,8 @@ namespace WebStore.Services.Products.InMemory
 {
     public class InMemoryProductData : IProductData
     {
+        public Brand GetBrand(int Id) => TestData.Brands.FirstOrDefault(b => b.Id == Id);
+
         public IEnumerable<Brand> GetBrands() => TestData.Brands;
 
         public ProductDTO GetProductById(int id) => TestData.Products.FirstOrDefault(p => p.Id == id).ToDTO();
@@ -33,7 +35,7 @@ namespace WebStore.Services.Products.InMemory
             return products.Select(p => p.ToDTO());
         }
 
-
+        public Section GetSection(int Id) => TestData.Sections.FirstOrDefault(b => b.Id == Id);
 
         public IEnumerable<Section> GetSections() => TestData.Sections;
     }
