@@ -20,10 +20,15 @@ namespace WebStore.Components
         //делаем какую-то логику и возвращаем представление
         public IViewComponentResult Invoke(string SectionId)
         {
-            var section_id = int.TryParse(SectionId, out var id) ? id : (int?) null;
+            var section_id = int.TryParse(SectionId, out var id) ? id : (int?)null;
             var sections = GetSections(section_id, out var parent_section_id);
             
-            return View(sections);
+            return View(new SelectableSectionsViewModel
+            { 
+             Sections = sections,
+             CurrentSectionId = section_id,
+             ParentSectionId = parent_section_id
+            });
         }
 
         private IEnumerable<SectionViewModel> GetSections(int? SectionId, out int? ParentSectionId)
