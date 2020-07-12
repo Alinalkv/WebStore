@@ -19,7 +19,10 @@ namespace WebStore.Components
 
         //во вью компоненте дб invoke
         //делаем какую-то логику и возвращаем представление
-        public IViewComponentResult Invoke() => View(GetBrands());
+        public IViewComponentResult Invoke(string BrandId)
+        {
+            return View(GetBrands());
+        }
 
         private IEnumerable<BrandViewModel> GetBrands()
         {
