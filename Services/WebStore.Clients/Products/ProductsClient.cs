@@ -15,6 +15,8 @@ namespace WebStore.Clients.Products
     {
         public ProductsClient(IConfiguration Configuration) : base(Configuration, WebApi.Products) { }
 
+        public Brand GetBrand(int Id) => Get<Brand>($"{_ServiceAddress}/brand/{Id}");
+
         /// <summary>
         /// Получаем бренды
         /// </summary>
@@ -38,6 +40,8 @@ namespace WebStore.Clients.Products
             .Content
             .ReadAsAsync<IEnumerable<ProductDTO>>()
             .Result;
+
+        public Section GetSection(int Id) => Get<Section>($"{_ServiceAddress}/section/{Id}");
 
         /// <summary>
         /// Получаем секции
