@@ -23,7 +23,7 @@ namespace WebStore.TagHelpers
         public IDictionary<string, string> RouteValues { get; set; } = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
 
         [ViewContext, HtmlAttributeNotBound]
-        private ViewContext ViewContext { get; set; }
+        public ViewContext ViewContext { get; set; }
         
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
@@ -55,8 +55,17 @@ namespace WebStore.TagHelpers
             return true;
         }
 
-        private void MakeActive(TagHelperOutput Output)
+        private void MakeActive(TagHelperOutput output)
         {
+            var class_attribute = output.Attributes.FirstOrDefault(attr => attr.Name == "class");
+
+            if (class_attribute is null)
+                output.Attributes.Add("class", "active");
+            else
+            {
+                if (class_attribute.Value.ToString()?.Contains("active") ?? false) return;
+                output.Attributes.SetAttribute("class", class_attribute.Value + " active");
+            }
 
         }
     }
