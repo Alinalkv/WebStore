@@ -86,7 +86,7 @@ namespace WebStore.Controllers
         /// <summary>
         /// Получение компонента с кол-вом в корзине
         /// </summary>
-        public IActionResult GetCartView => ViewComponent("Cart");
+        public IActionResult GetCartView() => ViewComponent("Cart");
 
 
         public IActionResult AddToCartAPI(int id)
