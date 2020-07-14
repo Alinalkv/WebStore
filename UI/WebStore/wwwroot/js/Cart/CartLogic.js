@@ -16,8 +16,8 @@
         //находим кнопки, отвечающие за добавление товара в корзину
         $(".add-to-cart").click(Cart.addToCart);
         $(".cart_quantity_up").click(Cart.incrementItem);
-       // $(".cart_quantity_down").click(Cart.decrementItem);
-      //  $(".cart_quantity_delete").click(Cart.removeItem);
+        $(".cart_quantity_down").click(Cart.decrementItem);
+       // $(".cart_quantity_delete").click(Cart.removeItem);
     },
 
     //при щелчке мышки на добавление товара попадаем сюда
@@ -55,7 +55,7 @@
     incrementItem: function(event) {
         event.preventDefault();
 
-        var button = $(this);
+        const button = $(this);
         const id = button.data("id"); //извлекаем id из словаря
 
         var container = button.closest("tr");
@@ -70,11 +70,27 @@
 
     },
 
-    decrementItem: function(event) {
+    decrementItem: function (event) {
         event.preventDefault();
 
-        var button = $(this);
+        const button = $(this);
         const id = button.data("id"); //извлекаем id из словаря
+
+        var container = button.closest("tr");
+        $.get(Cart._properties.decrementFromCartLink + "/" + id)
+            .done(function () {
+                const count = parseInt($(".cart_quantity_input", container).val());
+                if (count > 1) {
+                    $(".cart_quantity_input", container).val(count - 1);
+                    Cart.refreshPrice(container);
+                }
+                else {
+                    container.remove();
+                    Cart.refreshTotalPrice();
+                }
+                Cart.refreshCartView();
+            })
+            .fail(function () { console.log("decrementItem fail"); });
 
     },
 
