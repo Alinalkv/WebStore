@@ -17,7 +17,7 @@
         $(".add-to-cart").click(Cart.addToCart);
         $(".cart_quantity_up").click(Cart.incrementItem);
         $(".cart_quantity_down").click(Cart.decrementItem);
-       // $(".cart_quantity_delete").click(Cart.removeItem);
+        $(".cart_quantity_delete").click(Cart.removeItem);
     },
 
     //при щелчке мышки на добавление товара попадаем сюда
@@ -97,8 +97,17 @@
     removeItem: function (event) {
         event.preventDefault();
 
-        var button = $(this);
+        const button = $(this);
         const id = button.data("id"); //извлекаем id из словаря
+
+        var container = button.closest("tr");
+        $.get(Cart._properties.removeFormCartLink + "/" + id)
+            .done(function () {
+                button.closest("tr").remove();
+                Cart.refreshTotalPrice();
+                Cart.refreshCartView();
+            })
+            .fail(function () { console.log("removeItem fail"); });
 
     },
 
