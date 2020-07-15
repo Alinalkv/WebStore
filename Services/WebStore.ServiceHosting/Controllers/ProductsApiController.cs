@@ -30,7 +30,7 @@ namespace WebStore.ServiceHosting.Controllers
         public ProductDTO GetProductById(int id) => _ProductData.GetProductById(id);
 
         [HttpPost]
-        public IEnumerable<ProductDTO> GetProducts([FromBody]ProductFilter filter = null) => _ProductData.GetProducts(filter);
+        public PageProductsDTO GetProducts([FromBody]ProductFilter filter = null) => _ProductData.GetProducts(filter);
 
         [HttpGet("section/{Id}")]
         public Section GetSection(int Id) => _ProductData.GetSection(Id);

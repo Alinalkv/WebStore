@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.Extensions.Configuration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
@@ -50,7 +51,12 @@ namespace WebStore.Tests.Controllers
                     }
                 });
 
-            var controller = new CatalogController(mock_product_data.Object);
+            var configuration_mock = new Mock<IConfiguration>();
+            configuration_mock.Setup(cfg => cfg["PageSize"])
+                .Returns("3");
+
+
+            var controller = new CatalogController(mock_product_data.Object, configuration_mock.Object);
             #endregion
 
             #region Act - действия
@@ -113,9 +119,16 @@ namespace WebStore.Tests.Controllers
             var mock_product_data = new Mock<IProductData>();
             mock_product_data
                 .Setup(s => s.GetProducts(It.IsAny<ProductFilter>()))
-                .Returns(products);
+                .Returns(new PageProductsDTO { 
+                 Products = products,
+                  TotalCount = products.Length
+                });
 
-            var controller = new CatalogController(mock_product_data.Object);
+            var configuration_mock = new Mock<IConfiguration>();
+            configuration_mock.Setup(cfg => cfg["PageSize"])
+                .Returns("3");
+
+            var controller = new CatalogController(mock_product_data.Object, configuration_mock.Object);
             const int exp_section_id = 1;
             const int exp_brand_id = 5;
             
