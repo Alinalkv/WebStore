@@ -113,7 +113,10 @@ namespace WebStore.Tests.Controllers
             var mock_product_data = new Mock<IProductData>();
             mock_product_data
                 .Setup(s => s.GetProducts(It.IsAny<ProductFilter>()))
-                .Returns(products);
+                .Returns(new PageProductsDTO { 
+                 Products = products,
+                  TotalCount = products.Length
+                });
 
             var controller = new CatalogController(mock_product_data.Object);
             const int exp_section_id = 1;

@@ -28,7 +28,7 @@ namespace WebStore.Services.Products.InSQL
             .FirstOrDefault(p => p.Id == id)
             .ToDTO();
 
-        public IEnumerable<ProductDTO> GetProducts(ProductFilter filter = null)
+        public PageProductsDTO GetProducts(ProductFilter filter = null)
         {
             IEnumerable<Product> query = _db.Products;
 
@@ -42,7 +42,18 @@ namespace WebStore.Services.Products.InSQL
                 if (filter?.SectionId != null)
                     query = query.Where(c => c.SectionId == filter.SectionId);
             }
-            return query.Select(p => p.ToDTO());
+
+            var total_count = query.Count();
+            if(filter?.PageSize > 0)
+            {
+                query = query
+                    .Skip((filter.Page - 1) * (int)filter.PageSize)
+                    .Take((int)filter.PageSize);
+            }
+            return new PageProductsDTO {
+             Products = query.Select(p => p.ToDTO()),
+              TotalCount = total_count
+            };
         }
 
         public Section GetSection(int Id) => _db.Sections.Include(p => p.ParentSection).FirstOrDefault(s => s.Id == Id);

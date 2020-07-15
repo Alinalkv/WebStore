@@ -35,10 +35,10 @@ namespace WebStore.Clients.Products
         /// </summary>
         /// <param name="filter"></param>
         /// <returns></returns>
-        public IEnumerable<ProductDTO> GetProducts(ProductFilter filter = null) =>
+        public PageProductsDTO GetProducts(ProductFilter filter = null) =>
             Post(_ServiceAddress, filter ?? new ProductFilter())
             .Content
-            .ReadAsAsync<IEnumerable<ProductDTO>>()
+            .ReadAsAsync<PageProductsDTO>()
             .Result;
 
         public Section GetSection(int Id) => Get<Section>($"{_ServiceAddress}/section/{Id}");
